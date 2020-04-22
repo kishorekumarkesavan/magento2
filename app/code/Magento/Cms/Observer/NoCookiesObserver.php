@@ -17,6 +17,13 @@ class NoCookiesObserver implements ObserverInterface
     protected $_cmsPage;
 
     /**
+     * Config
+     *
+     * @var \Magento\Cms\Model\Config
+     */
+    protected $_config;
+
+    /**
      * Core store config
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -26,13 +33,16 @@ class NoCookiesObserver implements ObserverInterface
     /**
      * @param \Magento\Cms\Helper\Page $cmsPage
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Cms\Model\Config $config
      */
     public function __construct(
         \Magento\Cms\Helper\Page $cmsPage,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Cms\Model\Config $config
     ) {
         $this->_cmsPage = $cmsPage;
         $this->_scopeConfig = $scopeConfig;
+        $this->_config = $config;
     }
 
     /**
@@ -45,10 +55,7 @@ class NoCookiesObserver implements ObserverInterface
     {
         $redirect = $observer->getEvent()->getRedirect();
 
-        $pageId = $this->_scopeConfig->getValue(
-            \Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
+        $pageId =$this->_config->getCmsNoCookiesPath();
         $pageUrl = $this->_cmsPage->getPageUrl($pageId);
 
         if ($pageUrl) {

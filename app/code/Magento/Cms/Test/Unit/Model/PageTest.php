@@ -6,6 +6,7 @@
 namespace Magento\Cms\Test\Unit\Model;
 
 use Magento\Cms\Model\Page;
+use Magento\Cms\Model\ConfigInterface as ConfigInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Model\Context;
@@ -132,7 +133,7 @@ class PageTest extends \PHPUnit\Framework\TestCase
             ->willReturnMap(
                 [
                     [
-                        \Magento\Cms\Helper\Page::XML_PATH_NO_ROUTE_PAGE,
+                        ConfigInterface::XML_PATH_NO_ROUTE_PAGE,
                         ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
                         null,
                         'no-route'
@@ -158,7 +159,7 @@ class PageTest extends \PHPUnit\Framework\TestCase
             ->willReturnMap(
                 [
                     [
-                        \Magento\Cms\Helper\Page::XML_PATH_HOME_PAGE,
+                        ConfigInterface::XML_PATH_HOME_PAGE,
                         ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
                         null,
                         'home'
@@ -184,7 +185,7 @@ class PageTest extends \PHPUnit\Framework\TestCase
             ->willReturnMap(
                 [
                     [
-                        \Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE,
+                        ConfigInterface::XML_PATH_NO_COOKIES_PAGE,
                         ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
                         null,
                         'no-cookies'

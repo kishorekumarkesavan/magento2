@@ -23,20 +23,6 @@ use Magento\Framework\View\Result\Page as ResultPage;
  */
 class Page extends AbstractHelper
 {
-    /**
-     * CMS no-route config path
-     */
-    const XML_PATH_NO_ROUTE_PAGE = 'web/default/cms_no_route';
-
-    /**
-     * CMS no cookies config path
-     */
-    const XML_PATH_NO_COOKIES_PAGE = 'web/default/cms_no_cookies';
-
-    /**
-     * CMS home page config path
-     */
-    const XML_PATH_HOME_PAGE = 'web/default/cms_home_page';
 
     /**
      * Design package instance

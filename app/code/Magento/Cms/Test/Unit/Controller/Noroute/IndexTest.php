@@ -5,6 +5,8 @@
  */
 namespace Magento\Cms\Test\Unit\Controller\Noroute;
 
+use Magento\Cms\Model\ConfigInterface as ConfigInterface;
+
 class IndexTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -72,7 +74,7 @@ class IndexTest extends \PHPUnit\Framework\TestCase
         )->method(
             'getValue'
         )->with(
-            \Magento\Cms\Helper\Page::XML_PATH_NO_ROUTE_PAGE
+            ConfigInterface::XML_PATH_NO_ROUTE_PAGE
         )->will(
             $this->returnValue('pageId')
         );

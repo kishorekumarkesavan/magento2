@@ -15,9 +15,9 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Controller\Result\Forward;
 use Magento\Framework\Controller\Result\ForwardFactory;
 use Magento\Framework\View\Result\Page as ResultPage;
-use Magento\Cms\Helper\Page;
-use Magento\Store\Model\ScopeInterface;
+use Magento\Cms\Helper\Page as Page;
 use Magento\Framework\App\Action\Action;
+use Magento\Cms\Model\Config as Config;
 
 /**
  * Home page. Needs to be accessible by POST because of the store switching.
@@ -40,22 +40,32 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
     private $page;
 
     /**
+     * Config
+     *
+     * @var \Magento\Cms\Model\Config
+     */
+    protected $_config;
+
+    /**
      * Index constructor.
      *
      * @param Context $context
      * @param ForwardFactory $resultForwardFactory
      * @param ScopeConfigInterface|null $scopeConfig
      * @param Page|null $page
+     * @param Config $config
      */
     public function __construct(
         Context $context,
         ForwardFactory $resultForwardFactory,
         ScopeConfigInterface $scopeConfig = null,
-        Page $page = null
+        Page $page = null,
+        Config $config
     ) {
         $this->resultForwardFactory = $resultForwardFactory;
         $this->scopeConfig = $scopeConfig ? : ObjectManager::getInstance()->get(ScopeConfigInterface::class);
         $this->page = $page ? : ObjectManager::getInstance()->get(Page::class);
+        $this->_config = $config;
         parent::__construct($context);
     }
 
@@ -70,7 +80,7 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
      */
     public function execute($coreRoute = null)
     {
-        $pageId = $this->scopeConfig->getValue(Page::XML_PATH_HOME_PAGE, ScopeInterface::SCOPE_STORE);
+        $pageId = $this->_config->getCmsHomePath();
         $resultPage = $this->page->prepareResultPage($this, $pageId);
         if (!$resultPage) {
             /** @var Forward $resultForward */

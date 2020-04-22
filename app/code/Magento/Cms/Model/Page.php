@@ -6,7 +6,7 @@
 namespace Magento\Cms\Model;
 
 use Magento\Cms\Api\Data\PageInterface;
-use Magento\Cms\Helper\Page as PageHelper;
+use Magento\Cms\Model\ConfigInterface as ConfigInterface;
 use Magento\Cms\Model\Page\CustomLayout\CustomLayoutRepository;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\ObjectManager;
@@ -575,15 +575,15 @@ class Page extends AbstractModel implements PageInterface, IdentityInterface
         $currentIdentifier = $this->getIdentifier();
         if ($this->getId() && $originalIdentifier !== $currentIdentifier) {
             switch ($originalIdentifier) {
-                case $this->getScopeConfig()->getValue(PageHelper::XML_PATH_NO_ROUTE_PAGE):
+                case $this->getScopeConfig()->getValue(ConfigInterface::XML_PATH_NO_ROUTE_PAGE):
                     throw new LocalizedException(
                         __('This identifier is reserved for "CMS No Route Page" in configuration.')
                     );
-                case $this->getScopeConfig()->getValue(PageHelper::XML_PATH_HOME_PAGE):
+                case $this->getScopeConfig()->getValue(ConfigInterface::XML_PATH_HOME_PAGE):
                     throw new LocalizedException(
                         __('This identifier is reserved for "CMS Home Page" in configuration.')
                     );
-                case $this->getScopeConfig()->getValue(PageHelper::XML_PATH_NO_COOKIES_PAGE):
+                case $this->getScopeConfig()->getValue(ConfigInterface::XML_PATH_NO_COOKIES_PAGE):
                     throw new LocalizedException(
                         __('This identifier is reserved for "CMS No Cookies Page" in configuration.')
                     );

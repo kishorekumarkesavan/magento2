@@ -6,6 +6,8 @@
  */
 namespace Magento\Cms\Controller\Noroute;
 
+use Magento\Cms\Model\Config as Config;
+
 /**
  * @SuppressWarnings(PHPMD.AllPurposeAction)
  */
@@ -17,14 +19,24 @@ class Index extends \Magento\Framework\App\Action\Action
     protected $resultForwardFactory;
 
     /**
+     * Config
+     *
+     * @var \Magento\Cms\Model\Config
+     */
+    protected $_config;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
+     * @param Config $config
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
+        \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory,
+        Config $config
     ) {
         $this->resultForwardFactory = $resultForwardFactory;
+        $this->_config = $config;
         parent::__construct($context);
     }
 
@@ -35,13 +47,7 @@ class Index extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        $pageId = $this->_objectManager->get(
-            \Magento\Framework\App\Config\ScopeConfigInterface::class,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        )->getValue(
-            \Magento\Cms\Helper\Page::XML_PATH_NO_ROUTE_PAGE,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
+        $pageId =  $this->_config->getCmsNoRoutePath();
         /** @var \Magento\Cms\Helper\Page $pageHelper */
         $pageHelper = $this->_objectManager->get(\Magento\Cms\Helper\Page::class);
         $resultPage = $pageHelper->prepareResultPage($this, $pageId);

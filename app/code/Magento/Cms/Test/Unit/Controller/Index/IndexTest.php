@@ -5,6 +5,8 @@
  */
 namespace Magento\Cms\Test\Unit\Controller\Index;
 
+use Magento\Cms\Model\ConfigInterface as ConfigInterface;
+
 class IndexTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -77,7 +79,7 @@ class IndexTest extends \PHPUnit\Framework\TestCase
         $scopeConfigMock->expects($this->once())
             ->method('getValue')
             ->with(
-                \Magento\Cms\Helper\Page::XML_PATH_HOME_PAGE,
+                ConfigInterface::XML_PATH_HOME_PAGE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )
             ->willReturn($this->pageId);

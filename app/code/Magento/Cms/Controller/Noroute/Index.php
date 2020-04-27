@@ -6,8 +6,6 @@
  */
 namespace Magento\Cms\Controller\Noroute;
 
-use Magento\Cms\Model\Config as Config;
-
 /**
  * @SuppressWarnings(PHPMD.AllPurposeAction)
  */
@@ -33,7 +31,7 @@ class Index extends \Magento\Framework\App\Action\Action
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory,
-        Config $config
+        \Magento\Cms\Model\Config $config
     ) {
         $this->resultForwardFactory = $resultForwardFactory;
         $this->_config = $config;

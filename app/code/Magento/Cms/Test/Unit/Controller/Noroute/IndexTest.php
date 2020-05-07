@@ -39,11 +39,23 @@ class IndexTest extends \PHPUnit\Framework\TestCase
      */
     protected $resultPageMock;
 
+    /**
+     * @var string
+     */
+    protected $pageId;
+
+    /**
+     * Module config instance
+     *
+     * @var ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $configMock;
     protected function setUp()
     {
         $helper = new \Magento\Framework\TestFramework\Unit\Helper\ObjectManager($this);
         $objectManagerMock = $this->createMock(\Magento\Framework\ObjectManagerInterface::class);
         $responseMock = $this->createMock(\Magento\Framework\App\Response\Http::class);
+        $this->configMock = $this->getMockBuilder(ConfigInterface::class)->getMockForAbstractClass();
         $this->resultPageMock = $this->getMockBuilder(\Magento\Framework\View\Result\Page::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -69,15 +81,9 @@ class IndexTest extends \PHPUnit\Framework\TestCase
             [\Magento\Cms\Helper\Page::class, $this->_cmsHelperMock],
         ];
         $objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap($valueMap));
-        $scopeConfigMock->expects(
-            $this->once()
-        )->method(
-            'getValue'
-        )->with(
-            ConfigInterface::XML_PATH_NO_ROUTE_PAGE
-        )->will(
-            $this->returnValue('pageId')
-        );
+        $this->configMock->expects($this->once())
+            ->method('getCmsNoRoutePath')
+            ->willReturn($this->pageId);
         $this->_controller = $helper->getObject(
             \Magento\Cms\Controller\Noroute\Index::class,
             ['response' => $responseMock, 'objectManager' => $objectManagerMock, 'request' => $this->_requestMock,
@@ -88,6 +94,9 @@ class IndexTest extends \PHPUnit\Framework\TestCase
 
     public function testExecuteResultPage()
     {
+        $this->configMock->expects($this->once())
+            ->method('getCmsNoRoutePath')
+            ->willReturn($this->pageId);
         $this->resultPageMock->expects(
             $this->at(0)
         )->method(
@@ -120,6 +129,9 @@ class IndexTest extends \PHPUnit\Framework\TestCase
 
     public function testExecuteResultForward()
     {
+        $this->configMock->expects($this->once())
+            ->method('getCmsNoRoutePath')
+            ->willReturn($this->pageId);
         $this->forwardMock->expects(
             $this->once()
         )->method(

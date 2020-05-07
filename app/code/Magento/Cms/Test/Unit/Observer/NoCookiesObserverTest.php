@@ -5,6 +5,8 @@
  */
 namespace Magento\Cms\Test\Unit\Observer;
 
+use Magento\Cms\Model\ConfigInterface as ConfigInterface;
+
 class NoCookiesObserverTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -37,12 +39,20 @@ class NoCookiesObserverTest extends \PHPUnit\Framework\TestCase
      */
     protected $objectMock;
 
+     /**
+     * Module config instance
+     *
+     * @var ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $configMock;
+
     protected function setUp()
     {
         $this->cmsPageMock = $this
             ->getMockBuilder(\Magento\Cms\Helper\Page::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $this->configMock = $this->getMockBuilder(ConfigInterface::class)->getMockForAbstractClass();
         $this->scopeConfigMock = $this
             ->getMockBuilder(\Magento\Framework\App\Config\ScopeConfigInterface::class)
             ->disableOriginalConstructor()
@@ -105,10 +115,7 @@ class NoCookiesObserverTest extends \PHPUnit\Framework\TestCase
             ->expects($this->atLeastOnce())
             ->method('getRedirect')
             ->willReturn($this->objectMock);
-        $this->scopeConfigMock
-            ->expects($this->atLeastOnce())
-            ->method('getValue')
-            ->with('web/default/cms_no_cookies', 'store')
+        $this->configMock->method('getCmsNoCookiesPath')
             ->willReturn($pageId);
         $this->cmsPageMock
             ->expects($this->atLeastOnce())

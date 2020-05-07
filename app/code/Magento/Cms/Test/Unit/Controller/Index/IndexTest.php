@@ -47,11 +47,18 @@ class IndexTest extends \PHPUnit\Framework\TestCase
     /**
      * Test setUp
      */
+    /**
+     * Module config instance
+     *
+     * @var ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $configMock;
     protected function setUp()
     {
         $helper = new \Magento\Framework\TestFramework\Unit\Helper\ObjectManager($this);
         $objectManagerMock = $this->createMock(\Magento\Framework\ObjectManagerInterface::class);
         $responseMock = $this->createMock(\Magento\Framework\App\Response\Http::class);
+        $this->configMock = $this->getMockBuilder(ConfigInterface::class)->getMockForAbstractClass();
         $this->resultPageMock = $this->getMockBuilder(\Magento\Framework\View\Result\Page::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -67,7 +74,6 @@ class IndexTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->forwardMock);
 
         $scopeConfigMock = $this->createMock(\Magento\Framework\App\Config\ScopeConfigInterface::class);
-        $cmsConfigMock = $this->createMock(\Magento\Cms\Model\Config::class);
         $this->requestMock = $this->createMock(\Magento\Framework\App\Request\Http::class);
         $this->cmsHelperMock = $this->createMock(\Magento\Cms\Helper\Page::class);
         $valueMap = [
@@ -77,7 +83,7 @@ class IndexTest extends \PHPUnit\Framework\TestCase
             [\Magento\Cms\Helper\Page::class, $this->cmsHelperMock],
         ];
         $objectManagerMock->expects($this->any())->method('get')->willReturnMap($valueMap);
-        $cmsConfigMock->expects($this->once())
+        $this->configMock->expects($this->once())
             ->method('getCmsHomePath')
             ->willReturn($this->pageId);
         $this->controller = $helper->getObject(

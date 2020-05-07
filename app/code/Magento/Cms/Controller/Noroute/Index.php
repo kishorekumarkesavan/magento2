@@ -26,12 +26,12 @@ class Index extends \Magento\Framework\App\Action\Action
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
-     * @param Config $config
+     * @param ConfigInterface $config
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory,
-        \Magento\Cms\Model\Config $config
+        \Magento\Cms\Model\ConfigInterface $config
     ) {
         $this->resultForwardFactory = $resultForwardFactory;
         $this->_config = $config;

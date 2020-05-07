@@ -17,9 +17,9 @@ class NoCookiesObserver implements ObserverInterface
     protected $_cmsPage;
 
     /**
-     * Config
+     * ConfigInterface
      *
-     * @var \Magento\Cms\Model\Config
+     * @var \Magento\Cms\Model\ConfigInterface
      */
     protected $_config;
 
@@ -33,12 +33,12 @@ class NoCookiesObserver implements ObserverInterface
     /**
      * @param \Magento\Cms\Helper\Page $cmsPage
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Cms\Model\Config $config
+     * @param \Magento\Cms\Model\ConfigInterface $config
      */
     public function __construct(
         \Magento\Cms\Helper\Page $cmsPage,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Cms\Model\Config $config
+        \Magento\Cms\Model\ConfigInterface $config
     ) {
         $this->_cmsPage = $cmsPage;
         $this->_scopeConfig = $scopeConfig;

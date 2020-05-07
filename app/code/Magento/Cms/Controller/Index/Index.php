@@ -16,7 +16,7 @@ use Magento\Framework\Controller\Result\ForwardFactory;
 use Magento\Framework\View\Result\Page as ResultPage;
 use Magento\Cms\Helper\Page as PageHelper;
 use Magento\Framework\App\Action\Action;
-use Magento\Cms\Model\Config;
+use Magento\Cms\Model\ConfigInterface;
 
 /**
  * Home page. Needs to be accessible by POST because of the store switching.
@@ -34,9 +34,9 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
     private $page;
 
     /**
-     * Config
+     * ConfigInterface
      *
-     * @var \Magento\Cms\Model\Config
+     * @var \Magento\Cms\Model\ConfigInterface
      */
     protected $_config;
 
@@ -45,13 +45,13 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
      *
      * @param Context $context
      * @param ForwardFactory $resultForwardFactory
-     * @param Config $config
+     * @param ConfigInterface $config
      * @param PageHelper|null $page
      */
     public function __construct(
         Context $context,
         ForwardFactory $resultForwardFactory,
-        Config $config,
+        ConfigInterface $config,
         PageHelper $page = null
     ) {
         $this->resultForwardFactory = $resultForwardFactory;
@@ -74,7 +74,7 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
         $pageId = $this->_config->getCmsHomePath();
         $resultPage = $this->page->prepareResultPage($this, $pageId);
         if (!$resultPage) {
-            /** @var Forward $resultForward */
+            /** @var For  ward $resultForward */
             $resultForward = $this->resultForwardFactory->create();
             $resultForward->forward('defaultIndex');
             return $resultForward;
